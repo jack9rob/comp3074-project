@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { ActivityIndicator, FlatList, Image, SafeAreaView, View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import { ActivityIndicator, FlatList, Image, SafeAreaView, View, Text, StyleSheet} from 'react-native';
 import * as Location from 'expo-location'
 
 
@@ -26,11 +26,10 @@ export default function Weather() {
         }
         return (
             <View style={styles.container}>
-
                 <View style={styles.row}>
                     <Image style={{width: 100, height:100}} source={{uri: iconUrl}}/>
                     <View style={styles.day}>
-                        <Text style={{padding: 20, fontSize: 20}}>{date_name}</Text>
+                        <Text style={styles.text}>{date_name}</Text>
                         <Text style={{padding: 20, fontSize: 30, fontWeight: 'bold'}}>{Math.round(data.temp.day)}&#176;C</Text>
                         <Text style={{padding: 20, fontSize: 20}}>{data.weather[0].description}</Text>
                         <Text>feels like: {Math.round(data.feels_like.day)}&#176;C</Text>
@@ -50,7 +49,6 @@ export default function Weather() {
     
     const geoSuccess = (position) => {
         setIsReady(true)
-        console.log(position)
         let tempLocation = {
             lat: position.coords.latitude,
             long: position.coords.longitude
@@ -103,9 +101,7 @@ export default function Weather() {
                 </View>
                 :
                 isReady ?
-                    <View>
-                        <Text>{weatherData.timezone.split('/')[1]}</Text>
-                        <Text>{`Latitude: ${location.lat} Longitude: ${location.long}`}</Text>
+                    <View>                
                         <FlatList
                         data={weatherData.daily}
                         keyExtractor={item=>item.dt}
@@ -125,12 +121,11 @@ export default function Weather() {
 const styles = StyleSheet.create({
     container: {
         marginTop: 10,
-        marginLeft: 20,
+        marginLeft: 10,
         marginRight: 10,
         padding: 10,
-        backgroundColor: '#bcf5bc',
-        borderColor: '#0000FF',
         borderWidth: 1,
+        backgroundColor: 'rgba(135,206,235,0.6)'
     },
     row: {
       flex: 1,
@@ -140,13 +135,27 @@ const styles = StyleSheet.create({
 
     },
     text: {
-        fontSize: 20,
-        fontWeight: "bold"
+        fontSize: 30,
+        padding: 20,
     },
     day: {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-around',
-        fontSize: 20
+        fontSize: 20,
+    }, 
+    winter:  {
+        backgroundColor: 'skyblue',
+        
+    },
+    spring : {
+        backgroundColor: 'green',
+      },
+    summer : {
+        backgroundColor: 'orange',
+      },
+    extremeHot:
+    {
+        backgroundColor: 'red'
     }
   });
